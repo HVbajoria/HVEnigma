@@ -1,0 +1,341 @@
+### Question Name
+"Manish's Journey Through the Bookshelf Maze: Finding the Longest Climb"
+
+### Tags
+- Dynamic Programming
+- Longest Increasing Subsequence (LIS)
+- Algorithms
+- Competitive Programming
+
+### Topics
+- Dynamic Programming
+- Data Structures
+- Binary Search
+
+### Companies
+- Google
+- Amazon
+- Microsoft
+- Facebook
+- Apple
+
+### Problem Statement
+
+Manish wants to reach the Land of Chocolates, but to get there, he must navigate through a series of bookshelves. Each bookshelf has books of varying heights, and Manish can only step from one book to another if the next book is taller than the current one. Manish wants to know the maximum number of books he can step on sequentially from left to right.
+
+Given the number of books and their respective heights, find the length of the longest increasing sequence of book heights that Manish can step on.
+
+### Constraints
+
+- \(1 \leq n \leq 10^5\) (number of books)
+- \(1 \leq a_i \leq 10^9\) (height of each book)
+
+### Input Format
+
+1. The first line contains a single integer \( n \) – the number of books.
+2. The second line contains \( n \) integers \( a_1, a_2, \ldots, a_n \) – the heights of the books from left to right.
+
+### Output Format
+
+- Output a single integer – the maximum number of books Manish can step on sequentially from left to right.
+
+### Sample Testcases
+
+#### Sample Input 1
+```
+5
+3 1 4 1 5
+```
+
+#### Sample Output 1
+```
+3
+```
+
+#### Explanation 1
+
+The longest increasing sequence of book heights is [3, 4, 5]. So, the maximum number of books Manish can step on is 3.
+
+#### Sample Input 2
+```
+6
+10 22 9 33 21 50
+```
+
+#### Sample Output 2
+```
+4
+```
+
+#### Explanation 2
+
+The longest increasing sequence of book heights is [10, 22, 33, 50]. So, the maximum number of books Manish can step on is 4.
+
+#### Sample Input 3
+```
+4
+7 7 7 7
+```
+
+#### Sample Output 3
+```
+1
+```
+
+#### Explanation 3
+
+All the books have the same height, so the longest increasing sequence contains only one book. The maximum number of books Manish can step on is 1.
+
+### Solution Code
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a;
+    for(int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        auto it = lower_bound(a.begin(), a.end(), x);
+        if(it == a.end()) {
+            a.push_back(x);
+        } else {
+            a[it - a.begin()] = x;
+        }
+    }
+    cout << a.size() << endl;
+    return 0;
+}
+```
+
+Here is the rephrased solution code according to the problem statement:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    // Number of books
+    int numBooks;
+    cin >> numBooks;
+
+    // Heights of the books
+    vector<int> bookHeights;
+    for(int i = 0; i < numBooks; i++) {
+        int height;
+        cin >> height;
+
+        // Find the position where current height can replace or extend the sequence
+        auto pos = lower_bound(bookHeights.begin(), bookHeights.end(), height);
+
+        // If the position is at the end, append the height to the sequence
+        if(pos == bookHeights.end()) {
+            bookHeights.push_back(height);
+        } else {
+            // Otherwise, replace the element at the found position
+            bookHeights[pos - bookHeights.begin()] = height;
+        }
+    }
+
+    // Output the length of the longest increasing sequence
+    cout << bookHeights.size() << endl;
+    return 0;
+}
+```
+
+### Explanation of Changes:
+1. **Variable Names**:
+   - `n` is changed to `numBooks` to represent the number of books.
+   - `a` is changed to `bookHeights` to represent the heights of the books.
+   - `x` is changed to `height` to represent the height of each book.
+   - `it` is changed to `pos` to represent the position in the sequence.
+
+2. **Comments**:
+   - Added comments to explain the steps of the algorithm, such as reading input, finding positions with `lower_bound`, appending or replacing elements, and outputting the result.
+
+3. **Input/Output**:
+   - The code now reads the input in the format specified in the problem statement and outputs the result as required.
+
+## Editorial
+
+Manish's journey to the Land of Chocolates through the bookshelves can be visualized as finding the longest increasing subsequence (LIS) in a sequence of numbers, which represent the heights of the books. In this editorial, we will break down the solution into four main sections: Intuition, Approach, Code, and Proper Explanation.
+
+### Intuition
+
+The problem at hand is a classic example of finding the longest increasing subsequence (LIS) in an array. The LIS is a subsequence of a given sequence in which the elements are in sorted order, strictly increasing, and which is as long as possible. Given the constraints, where the number of books can be up to \(10^5\) and the heights of the books can be very large, an efficient approach is required.
+
+### Approach
+
+To solve this problem efficiently, we can use dynamic programming with binary search. The idea is to maintain a list that stores the smallest possible tail value for all increasing subsequences of various lengths found so far. This list helps in building the longest increasing subsequence.
+
+Here’s the step-by-step approach:
+
+1. **Initialization**: Start with an empty list `a` which will store the smallest possible tail values.
+2. **Iterate through each book height**:
+   - Use binary search (`lower_bound`) to find the position where the current book height can replace an existing value in `a` or be appended to the end.
+   - If the book height is greater than all elements in `a`, append it to `a`.
+   - If it can replace an element in `a`, replace the element at the found position.
+3. **Result**: The size of list `a` at the end of the iteration will give the length of the longest increasing subsequence.
+
+### Code
+
+Here is the implementation of the above approach in C++:
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a;
+    for(int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        auto it = lower_bound(a.begin(), a.end(), x);
+        if(it == a.end()) {
+            a.push_back(x);
+        } else {
+            a[it - a.begin()] = x;
+        }
+    }
+    cout << a.size() << endl;
+    return 0;
+}
+```
+
+### Proper Explanation
+
+1. **Input Reading**:
+   - We start by reading the number of books `n`.
+   - We then read the heights of the books into a vector.
+
+2. **Processing**:
+   - We iterate through each book height.
+   - For each height, we use `lower_bound` to find the first element in `a` that is not less than the current height.
+   - If `lower_bound` returns an iterator to the end of `a`, it means the current height is greater than all elements in `a`, so we append it to `a`.
+   - Otherwise, we replace the element at the position found by `lower_bound` with the current height. This ensures that `a` always contains the smallest possible tail values for increasing subsequences of various lengths.
+
+3. **Result**:
+   - The size of the vector `a` at the end of the iteration represents the length of the longest increasing subsequence of book heights that Manish can step on.
+
+### Complexity Analysis
+
+- **Time Complexity**: The time complexity is \(O(n \log n)\) due to the binary search operation inside the loop which runs \(n\) times.
+- **Space Complexity**: The space complexity is \(O(n)\) for storing the vector `a`.
+
+This approach is efficient and works well within the given constraints, providing an optimal solution to the problem.
+
+
+
+### Program to generate testcases:
+
+To generate the required test cases and run them against the solution, we can create a Python script. This script will:
+
+1. Generate the input files based on the problem statement.
+2. Run the solution code (`solution.py`) on each input file.
+3. Capture and store the output in corresponding output files.
+
+Here's the Python script to achieve this:
+
+```python
+import os
+import subprocess
+
+# Define the test cases
+basic_tests = [
+    (5, [3, 1, 4, 1, 5]),
+    (6, [10, 22, 9, 33, 21, 50]),
+    (4, [7, 7, 7, 7]),
+    (3, [1, 2, 3])
+]
+
+corner_tests = [
+    (1, [1]),
+    (2, [1, 2])
+]
+
+edge_tests = [
+    (10, [i for i in range(1, 11)]),  # strictly increasing
+    (10, [10 for _ in range(10)])     # all same
+]
+
+boundary_tests = [
+    (100000, [i for i in range(1, 100001)]),  # maximum n, strictly increasing
+    (100000, [1 for _ in range(100000)])      # maximum n, all same
+]
+
+# Function to write test cases to input files
+def write_test_cases(test_cases, prefix):
+    for i, (n, heights) in enumerate(test_cases):
+        filename = f"{prefix}_input_{i+1}.txt"
+        with open(filename, "w") as f:
+            f.write(f"{n}\n")
+            f.write(" ".join(map(str, heights)) + "\n")
+
+# Function to run solution and capture output
+def run_solution_and_capture_output(input_file, output_file):
+    result = subprocess.run(['python3', 'solution.py'], input=open(input_file, 'r'), capture_output=True, text=True)
+    with open(output_file, "w") as f:
+        f.write(result.stdout)
+
+# Write test cases to files
+write_test_cases(basic_tests, "basic")
+write_test_cases(corner_tests, "corner")
+write_test_cases(edge_tests, "edge")
+write_test_cases(boundary_tests, "boundary")
+
+# List of all test case files
+test_files = [
+    ("basic_input_1.txt", "basic_output_1.txt"),
+    ("basic_input_2.txt", "basic_output_2.txt"),
+    ("basic_input_3.txt", "basic_output_3.txt"),
+    ("basic_input_4.txt", "basic_output_4.txt"),
+    ("corner_input_1.txt", "corner_output_1.txt"),
+    ("corner_input_2.txt", "corner_output_2.txt"),
+    ("edge_input_1.txt", "edge_output_1.txt"),
+    ("edge_input_2.txt", "edge_output_2.txt"),
+    ("boundary_input_1.txt", "boundary_output_1.txt"),
+    ("boundary_input_2.txt", "boundary_output_2.txt"),
+]
+
+# Run solution and capture output
+for input_file, output_file in test_files:
+    run_solution_and_capture_output(input_file, output_file)
+```
+
+This script assumes you have a `solution.py` file in the same directory, which contains the solution code for the problem statement. Here's an example of what `solution.py` might look like:
+
+```python
+# solution.py
+import sys
+import bisect
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    n = int(data[0])
+    heights = list(map(int, data[1:]))
+
+    if n == 0:
+        print(0)
+        return
+
+    lis = []
+    for height in heights:
+        pos = bisect.bisect_left(lis, height)
+        if pos == len(lis):
+            lis.append(height)
+        else:
+            lis[pos] = height
+
+    print(len(lis))
+
+if __name__ == "__main__":
+    main()
+```
+
+This script will create the input files, execute the solution code, and store the results in the corresponding output files. Make sure to have `solution.py` in the same directory when running this script.

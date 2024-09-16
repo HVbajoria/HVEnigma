@@ -1,0 +1,23 @@
+{
+    "flow_name": "HV_Enigma",
+    "flow_inputs": {
+        "Problem_Statement": [
+            "The first line of the input contains a single integer n \u2013 the number of books. The second line of the input contains n integers a1, a2, \u2026, an \u2013 the height of the books where ai represents the height of the ith book from the left.",
+            "string"
+        ],
+        "Story": [
+            "Manish wants to get to the land of chocolates and gain as much as chocolates as he can",
+            "string"
+        ],
+        "Code": [
+            "#include <bits/stdc++.h> using namespace std; int main() { int n; cin>>n; vector<int> a; for(int i=0;i<n;i++){ int x; cin>>x; auto it=lower_bound(a.begin(),a.end(),x); if(it==a.end()){ a.push_back(x); }else{ a[it-a.begin()]=x; } } cout<<a.size()<<endl; return 0; }",
+            "string"
+        ]
+    },
+    "flow_path": "/workspaces/HVEnigma/HV_Enigma/output/flow/flow.dag.yaml",
+    "is_chat_flow": true,
+    "chat_history_input_name": "chat_history",
+    "label": "Chat",
+    "chat_output_name": "Result",
+    "is_streaming": true
+}
